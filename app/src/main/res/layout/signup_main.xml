@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#A69DF9"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarsignup"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:background="#223A7D">
+
+        <ImageView
+            android:id="@+id/backlogin"
+            android:onClick="backlogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign Up"
+            android:textColor="#fff"
+            android:textSize="25dp" />
+
+    </android.support.v7.widget.Toolbar>
+    <TextView
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign up"
+        android:layout_marginBottom="50dp"
+        android:textColor="#fff"
+        android:textSize="40dp" />
+    <EditText
+        android:id="@+id/edtUsername1"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="20dp"
+        android:padding="10dp"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:hint="Username" />
+
+    <EditText
+        android:id="@+id/edtpass1"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:padding="10dp"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:hint="Password"
+        android:layout_marginBottom="20dp"
+        android:inputType="textPassword" />
+    <EditText
+        android:id="@+id/edtrepass1"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="20dp"
+        android:padding="10dp"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:inputType="textPassword"
+        android:hint="Confirm to password" />
+    <Button
+        android:id="@+id/btnsignup"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign up"
+        android:textColor="#fff"
+        android:background="#373A91"/>
+
+</LinearLayout>
