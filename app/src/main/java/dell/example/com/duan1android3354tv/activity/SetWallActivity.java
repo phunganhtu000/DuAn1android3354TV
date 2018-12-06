@@ -1,20 +1,22 @@
 package dell.example.com.duan1android3354tv.activity;
 
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.app.WallpaperManager;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.net.Uri;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,13 +28,15 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import dell.example.com.duan1android3354tv.ImageCacher;
 import dell.example.com.duan1android3354tv.R;
+import dell.example.com.duan1android3354tv.SaveImage;
 import dell.example.com.duan1android3354tv.model.Favorite;
 import dell.example.com.duan1android3354tv.sqlite.DatabaseHelper;
 
@@ -51,7 +55,7 @@ public class SetWallActivity extends AppCompatActivity {
         setContentView(R.layout.setimg);
         final DatabaseHelper databaseHelper = new DatabaseHelper(this);
         pDialog = new ProgressDialog(SetWallActivity.this);
-        pDialog.setMessage("Bạn đợi chút nha");
+        pDialog.setMessage("Please wait a moment");
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
         Intent intent = getIntent();
@@ -113,49 +117,19 @@ public class SetWallActivity extends AppCompatActivity {
                     }
                 }
                 if (b.equals(a)) {
-                    Toast.makeText(SetWallActivity.this, "Đã có ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SetWallActivity.this, "This picture is in favorites ", Toast.LENGTH_SHORT).show();
                 } else {
                     databaseHelper.insertFavorite(favorite);
-                    Toast.makeText(SetWallActivity.this, "Đã thêm " + name + " vào favorite", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SetWallActivity.this, "Added " + name + " to favorite", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
         save.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                ImageView imgLogo = (ImageView) findViewById(R.id.imgSet);
-                ImageCacher imageCacher = new ImageCacher(getApplicationContext(), -1);
-                Bitmap bmImg = imageCacher.getBitmap("https://i.imgur.com/3HTto9K.jpg");
-                File filename;
-                try {
-                    String path1 = android.os.Environment.getExternalStorageDirectory()
-                            .toString();
-                    Log.e("in save()", "after mkdir");
-                    File file = new File(path1 + "/" + "");
-                    if (!file.exists())
-                        file.mkdirs();
-                    filename = new File(file.getAbsolutePath() + "/" + name + ".jpg");
-                    Log.e("in save()", "after file");
-                    try (FileOutputStream out = new FileOutputStream(filename)) {
-                        bmImg.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
-                        // PNG is a lossless format, the compression factor (100) is ignored
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Log.e("in save()", "after outputstream closed");
-                    //File parent = filename.getParentFile();
-                    ContentValues image = getImageContent(filename);
-                    Uri result = getContentResolver().insert(
-                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, image);
-                    Toast.makeText(getApplicationContext(),
-                            "File is Saved in  " + filename, Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.e("gfjgj", e.getMessage());
-
-                }
+                SaveImage saveImage=new SaveImage(getApplicationContext(),link,getResources().getString(R.string.app_name));
+                saveImage.downloadImage();
+                Toast.makeText(SetWallActivity.this, "Save successfully", Toast.LENGTH_SHORT).show();
             }
 
             public ContentValues getImageContent(File parent) {
@@ -180,5 +154,60 @@ public class SetWallActivity extends AppCompatActivity {
     public void backimg(View view) {
         startActivity(new Intent(getApplicationContext(), HomeActivity.class));
     }
-
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            // Log exception
+            return null;
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

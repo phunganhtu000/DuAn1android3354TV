@@ -64,7 +64,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Custom
             public boolean onLongClick(View v) {
                 databaseHelper.deleteUFavorite(holder.tvTitle.getText().toString());
                 hitList.remove(hit);
-                Toast.makeText(context, "Xóa thành công", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Delete successfully", Toast.LENGTH_SHORT).show();
                 notifyDataSetChanged();
                 return false;
             }

@@ -58,12 +58,12 @@ public class LoginActivity extends AppCompatActivity {
 //                        bundle.putString("tenus",edtUserName.getText().toString());
 //                        intent.putExtra("b",bundle);
                         startActivity(intent);
-                        Toast.makeText(LoginActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Logged in successfully", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(LoginActivity.this, "Tài khoản hoặc mật khẩu chưa chính xác", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "The account or password is incorrect", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(LoginActivity.this, "Bạn chưa có tài khoản", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Do not have an account", Toast.LENGTH_SHORT).show();
                 }
             }
         });

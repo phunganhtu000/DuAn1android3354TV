@@ -38,17 +38,17 @@ public class SigninActivity extends AppCompatActivity {
                         ||edtpass1.getText().toString().matches("")
                         ||edtrepass1.getText().toString().matches("")){
                     if (edtUsername1.getText().toString().matches("")) {
-                        edtUsername1.setError("Bạn chưa nhập User Name");
+                        edtUsername1.setError("Do not leave empty");
                     }
                     if (edtpass1.getText().toString().matches("")) {
-                        edtpass1.setError("Bạn chưa nhập Password");
+                        edtpass1.setError("Do not leave empty");
                     }
 
                     if (edtrepass1.getText().toString().matches("")) {
-                        edtrepass1.setError("Bạn chưa nhập lại Password");
+                        edtrepass1.setError("Do not leave empty");
                     }}else {
-                    if (edtpass1.getText().toString().length() < 6) {
-                        edtpass1.setError("Phải nhiều hơn 6 kí tự");
+                    if (edtpass1.getText().toString().length() < 7 ) {
+                        edtpass1.setError("More than 6 characters");
                     }else {
                         if (edtpass1.getText().toString().matches(edtrepass1.getText().toString())) {
                             databaseHelper = new DatabaseHelper(getApplicationContext());
@@ -68,15 +68,15 @@ public class SigninActivity extends AppCompatActivity {
 
                             User user4 = new User(uname, pass);
                             if (b.equals(a)) {
-                                Toast.makeText(SigninActivity.this, "Đã có ", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SigninActivity.this, "Account already exists", Toast.LENGTH_SHORT).show();
                             } else {
                             databaseHelper.insertUser(user4);
-                            Toast.makeText(getApplicationContext(), "Đăng kí thành công", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Register successfully", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             startActivity(intent);
                             }
                         } else {
-                            edtrepass1.setError("Password chưa trùng nhau");
+                            edtrepass1.setError("Passwords are not the same");
                         }
                     }
                 }

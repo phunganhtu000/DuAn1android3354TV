@@ -64,7 +64,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
         pDialog = new ProgressDialog(HomeActivity.this);
-        pDialog.setMessage("Bạn đợi chút nha");
+        pDialog.setMessage("Please wait a moment");
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
 //        Intent intent1=getIntent();
@@ -73,9 +73,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         searchView = findViewById(R.id.mnuSeach);
         toolbar = (Toolbar) findViewById(R.id.toolbarcommunity);
-        setSupportActionBar(toolbar);
+//        setSupportActionBar(toolbar);
 //        getSupportActionBar().setDisplayShowTitleEnabled(true);
-        toolbar.setTitle("");
         tabLayoutcomnunity = findViewById(R.id.tabLayoutcomnunity);
         viewpagercommunity = findViewById(R.id.viewpagercommunity);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
@@ -146,7 +145,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                             }
                             if(a==false){
                                 pDialog.dismiss();
-                                Toast.makeText(HomeActivity.this, "Không có ảnh bạn cần tìm", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(HomeActivity.this, "No photos you need to find", Toast.LENGTH_SHORT).show();
 
                             }
 
@@ -194,7 +193,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_signout:
                 Intent intent2 = new Intent(this, LoginActivity.class);
                 startActivity(intent2);
-                Toast.makeText(this, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Log out successfully", Toast.LENGTH_SHORT).show();
                 break;
         }
         return false;
