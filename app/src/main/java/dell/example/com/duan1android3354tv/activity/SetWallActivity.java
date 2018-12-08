@@ -33,6 +33,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import dell.example.com.duan1android3354tv.R;
@@ -48,11 +49,18 @@ public class SetWallActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private TextView favorite;
     private List<Favorite> list2 = new ArrayList<>();
-
+    private final static int REQUEST_CODE_ASK_PERMISSIONS = 1;
+    private int result1;
+    /**
+     * Permissions that need to be explicitly requested from end user.
+     */
+    private static final String[] REQUIRED_SDK_PERMISSIONS = new String[]{
+            Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setimg);
+        checkPermissions();
         final DatabaseHelper databaseHelper = new DatabaseHelper(this);
         pDialog = new ProgressDialog(SetWallActivity.this);
         pDialog.setMessage("Please wait a moment");
@@ -127,9 +135,19 @@ public class SetWallActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SaveImage saveImage=new SaveImage(getApplicationContext(),link,getResources().getString(R.string.app_name));
-                saveImage.downloadImage();
-                Toast.makeText(SetWallActivity.this, "Save successfully", Toast.LENGTH_SHORT).show();
+                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    // Permission is not granted
+                    Toast.makeText(SetWallActivity.this, "You need to authorize the application", Toast.LENGTH_SHORT).show();
+
+                }else {
+                    SaveImage saveImage = new SaveImage(getApplicationContext(), link, getResources().getString(R.string.app_name));
+                    saveImage.downloadImage();
+                    Toast.makeText(SetWallActivity.this, "Save successfully", Toast.LENGTH_SHORT).show();
+
+
+                }
+
             }
 
             public ContentValues getImageContent(File parent) {
@@ -168,6 +186,45 @@ public class SetWallActivity extends AppCompatActivity {
             return null;
         }
     }
+    protected void checkPermissions() {
+        final List<String> missingPermissions = new ArrayList<String>();
+        // check all required dynamic permissions
+        for (final String permission : REQUIRED_SDK_PERMISSIONS) {
+            final int result = ContextCompat.checkSelfPermission(this, permission);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                missingPermissions.add(permission);
+            }
+        }
+        if (!missingPermissions.isEmpty()) {
+            // request all missing permissions
+            final String[] permissions = missingPermissions
+                    .toArray(new String[missingPermissions.size()]);
+            ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE_ASK_PERMISSIONS);
+        } else {
+            final int[] grantResults = new int[REQUIRED_SDK_PERMISSIONS.length];
+            Arrays.fill(grantResults, PackageManager.PERMISSION_GRANTED);
+            onRequestPermissionsResult(REQUEST_CODE_ASK_PERMISSIONS, REQUIRED_SDK_PERMISSIONS,
+                    grantResults);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+
+                for (int index = permissions.length - 1; index >= 0; --index) {
+                    if (grantResults[index] != PackageManager.PERMISSION_GRANTED) {
+
+                        return;
+                    }
+                }
+                // all permissions were granted
+                break;
+        }
+    }
+
 }
 
 

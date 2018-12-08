@@ -2,8 +2,8 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="notify_empty_username">Chưa nhập dữ liệu</string>
-    <string name="notify_empty_username2">Phải nhiều hơn 6 kí tự</string>
-    <string name="notify_empty_username3">Mật khẩu phải trùng nhau</string>
-    <string name="timkiem">Tìm kiếm</string>
+    <string name="notify_empty_username">No data entered</string>
+    <string name="notify_empty_username2">Must be more than 6 characters</string>
+    <string name="notify_empty_username3">Passwords must match</string>
+    <string name="timkiem">Search</string>
 </resources>
